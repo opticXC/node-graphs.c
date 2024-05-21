@@ -1,0 +1,73 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 1
+    },
+    "configurePresets": [
+        {
+            "name": "debug",
+            "hidden": false,
+            "description": "Debug build for unix-like systems",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/debug",
+            "cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+            }
+        },
+        {
+            "name": "debug-win",
+            "hidden": false,
+            "description": "Debug build for Windows",
+            "generator": "Ninja",
+            "inherits": "debug",
+            "binaryDir": "${sourceDir}/build/debug-win",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "x86_64-w64-mingw32-gcc",
+                "CMAKE_CXX_COMPILER": "x86_64-w64-mingw32-g++",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+            }
+        },
+		{
+			"name": "debug-android",
+			"hidden": false,
+			"description": "Debug build for Android",
+			"binaryDir": "${sourceDir}/build/debug-android",
+			"toolchainFile": "$env{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake",
+			"environment": {
+			},
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "$env{ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang",
+				"CMAKE_CXX_COMPILER": "$env{ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang++",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+			}
+		},
+        {
+            "name": "release",
+            "hidden": false,
+            "inherits": "debug",
+            "description": "Release build for unix-like systems",
+            "binaryDir": "${sourceDir}/build/release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "NO"
+            }
+        },
+        {
+            "name": "release-win",
+            "hidden": false,
+            "description": "Release build for Windows",
+            "inherits": "debug-win",
+            "binaryDir": "${sourceDir}/build/release-win",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "NO"
+			}
+        }
+    ]
+}
