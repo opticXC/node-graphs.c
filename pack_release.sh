@@ -36,10 +36,13 @@ echo "Signing tarball"
 gpg --detach-sign graphs-$version-$ref.tar.gz
 echo "Tarball signed"
 
+echo "Creating checksum"
+sha256sum graphs-$version-$ref.tar.gz > graphs-$version-$ref.tar.gz.sha256
+echo "Checksum created"
 
 # assume commands run using github actions
 echo "Creating Github release"
-gh release create $version-$ref graphs-$version-$ref.tar.gz graphs-$version-$ref.tar.gz.sha256
+gh release create $version-$ref graphs-$version-$ref.tar.gz graphs-$version-$ref.tar.gz.sig graphs-$version-$ref.tar.gz.sha256
 echo "Github release created"
 
 
